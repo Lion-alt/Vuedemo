@@ -10,6 +10,8 @@
       </button>
 
       <component v-bind:is="currentTabComponent" class="tab"></component>
+      <DinoPet :mood="parentPetMood" @update-pet-mood="changePetMood"></DinoPet>
+      <p>{{ parentPetMood }}</p>
     </div>
 </template>
 
@@ -18,16 +20,29 @@ import HelloWorld from './components/HelloWorld.vue'
 import tabHome from './components/tabHome.vue'
 import tabPosts from './components/tabPosts.vue'
 import tabArchive from './components/tabArchive.vue'
+import DinoPet from './components/CustomEvents/DinoPet.vue'
+
 
 export default({
   name: 'App',
   components: {
-    HelloWorld, tabHome, tabPosts, tabArchive
+    HelloWorld, tabHome, tabPosts, tabArchive, DinoPet
+  },
+  props: {
+    petMood: {
+      type: String
+    }
   },
   data() {
     return {
       currentTab: 'Home',
-      tabs: ['Home', 'Posts', 'Archive']
+      tabs: ['Home', 'Posts', 'Archive'],
+      parentPetMood : ''
+    }
+  },
+  methods : {
+    changePetMood(payload) {
+      this.parentPetMood = payload.mood
     }
   },
   computed: {
